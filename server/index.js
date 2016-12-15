@@ -192,7 +192,7 @@ app.post('/deleteStudent', function(request, response)
 /**
  * @brief add a student
  * @return add a student to the list of students
- */
+ */ 
 app.post('/addStudent', function(request, response) 
 {	
 	var headers = {};
@@ -242,7 +242,7 @@ app.post('/addStudent', function(request, response)
 			SSN: studentSSN,
 			name: studentName,
 			address: studentAddress,
-			mark: studentMark
+		   	mark: studentMark
 		}
 		
 		//if insertion works correctly
@@ -266,6 +266,66 @@ app.post('/addStudent', function(request, response)
 	}   
 
 });
+
+/**
+ * @brief search By Mark
+ * @return la lista di studenti con un voto minore o maggiore dello specificato
+ */
+app.post('/searchByMark', function(request, response) 
+{
+	var headers = {};
+	headers["Access-Control-Allow-Origin"] = "*";
+	headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+	headers["Access-Control-Allow-Credentials"] = false;
+	headers["Access-Control-Max-Age"] = '86400'; // 24 hours
+	headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
+	headers["Content-Type"] = "application/json";
+
+	var Mark;
+	
+	//check body and parameters
+	if ( typeof request.body !== 'undefined' && request.body)
+	{
+		if ( typeof request.body.mark !== 'undefined' && request.body.mark)
+            {
+			 Mark= request.body.mark;
+            }
+		else 
+			Mark = "not defined";
+	
+	}
+	else
+	{
+		Mark = "body undefined";
+	}
+    
+    if (Mark!="not defined" && Mark!="body undefined")
+	{
+		//aceptable input
+		var lista=studentManager.searchByMarck(Mark);
+		console.log(lista);
+		//if exists
+		if (lista != null)
+		{
+			response.writeHead(200, headers);
+			response.end(JSON.stringify(lista));
+		}
+		else
+		{
+			response.writeHead(404, headers);
+			response.end(JSON.stringify());
+		}
+
+	}
+    else    
+	{
+		//unaceptable input
+		response.writeHead(406, headers);
+		response.end(JSON.stringify("1"));
+	}   
+
+});
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
