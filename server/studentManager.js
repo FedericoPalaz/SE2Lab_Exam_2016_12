@@ -134,7 +134,41 @@ var insertStudent = function insertStudent(student)
 }
 
 //AGGIUNGERE QUI SOTTO NUOVE FUNZIONI
-
+/*
+ * @brief This function search student by Mark
+ * @param Marck
+ */
+var searchByMarck = function searchByMarck(Marck)
+{
+    var lista=new Array(studentList.length);
+    if(Marck[0]==">")
+    {
+        
+            for (var i=0; i < studentList.length; i++)
+            { 
+                if (studentList[i].mark > Marck[1])
+                {
+                    lista.push(studentList[i]);
+                    
+                }
+            }
+    }
+    else 
+    {
+        if(Marck[0]=="<")
+            {
+                for (var i=0; i < studentList.length; i++)
+                {
+                    if (studentList[i].mark < Marck[1])
+                    {
+                        lista.push(studentList[i]);
+                    }
+                }
+            }
+    }
+    
+    return lista;
+}
 
 
 //export functions
@@ -142,5 +176,6 @@ exports.searchStudentID = searchStudentID;
 exports.searchStudentSSN = searchStudentSSN; 
 exports.deleteStudentID = deleteStudentID; 
 exports.deleteStudentSSN = deleteStudentSSN; 
-exports.insertStudent = insertStudent;  
+exports.insertStudent = insertStudent; 
+exports.searchByMarck=searchByMarck;
 exports.getList = getList; 
